@@ -1,18 +1,37 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Form from "react-jsonschema-form";
+import { schema, uiSchema } from './helper';
+
+function CustomFieldTemplate(props) {
+  const {id, classNames, label, help, required, description, errors, children} = props;
+  return (
+    <div className={classNames}>
+      <label htmlFor={id}>{label}{required ? "*" : null}</label>
+      {description}
+      {children}
+      {errors}
+      {help}
+    </div>
+  );
+}
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="App container">
+        <Form
+          schema={schema}
+          uiSchema={uiSchema}
+          FieldTemplate={CustomFieldTemplate}
+          // onChange={log("changed")}
+          // onSubmit={log("submitted")}
+          // onError={log("errors")}
+        >
+          <div>
+            <button className="btn btn-success" type="submit">Submit</button>
+            <button className="btn btn-danger" type="button">Cancel</button>
+          </div>
+        </Form>
       </div>
     );
   }
